@@ -1360,5 +1360,118 @@
 </script>
 <!-- /wow-booking-widget -->
 
+
+<!-- wow-polish-pack -->
+<style>
+html{scroll-behavior:smooth}
+a,button{-webkit-tap-highlight-color:transparent}
+#wpp-lb{position:fixed;inset:0;z-index:100001;background:rgba(8,8,12,.92);display:none;align-items:center;justify-content:center;opacity:0;transition:opacity .25s;cursor:zoom-out}
+#wpp-lb.on{display:flex}#wpp-lb.vis{opacity:1}
+#wpp-lb img{max-width:94vw;max-height:90vh;border-radius:14px;box-shadow:0 30px 90px rgba(0,0,0,.6);transform:scale(.92);transition:transform .3s cubic-bezier(.2,1,.3,1)}
+#wpp-lb.vis img{transform:scale(1)}
+#wpp-lb button{position:absolute;top:18px;right:18px;width:42px;height:42px;border:none;border-radius:50%;background:rgba(255,255,255,.14);color:#fff;font-size:19px;cursor:pointer}
+#wpp-toast{position:fixed;left:50%;bottom:96px;transform:translate(-50%,16px);z-index:100002;background:#16161a;color:#fff;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:13.5px;font-weight:600;padding:12px 20px;border-radius:999px;box-shadow:0 10px 40px rgba(0,0,0,.35);opacity:0;pointer-events:none;transition:opacity .25s,transform .25s;max-width:86vw;text-align:center}
+#wpp-toast.on{opacity:1;transform:translate(-50%,0)}
+.wpp-press{transition:transform .12s !important}
+.wpp-press:active{transform:scale(.96) !important}
+</style>
+<div id="wpp-lb" role="dialog" aria-label="Перегляд фото"><button aria-label="Закрити">✕</button><img alt=""></div>
+<div id="wpp-toast" role="status"></div>
+<script>
+(function(){
+  var lb=document.getElementById('wpp-lb'),lbImg=lb.querySelector('img'),toast=document.getElementById('wpp-toast'),tT;
+  function showToast(t){toast.textContent=t;toast.classList.add('on');clearTimeout(tT);tT=setTimeout(function(){toast.classList.remove('on')},2600)}
+  function lbOpen(src,alt){lbImg.src=src;lbImg.alt=alt||'';lb.classList.add('on');requestAnimationFrame(function(){requestAnimationFrame(function(){lb.classList.add('vis')})});document.body.style.overflow='hidden'}
+  function lbClose(){lb.classList.remove('vis');document.body.style.overflow='';setTimeout(function(){lb.classList.remove('on');lbImg.src=''},240)}
+  lb.addEventListener('click',lbClose);
+  document.addEventListener('keydown',function(e){if(e.key==='Escape'&&lb.classList.contains('on'))lbClose()});
+
+  // 1. Lightbox on every sizable, non-interactive image
+  function armImages(){
+    document.querySelectorAll('img').forEach(function(im){
+      if(im.dataset.wpp)return;
+      if(im.closest('a,button,#wow-order-bar,#wbw-overlay,#wpp-lb,nav,header'))return;
+      var arm=function(){
+        if(im.clientWidth<140||im.clientHeight<90)return;
+        im.dataset.wpp='1';im.style.cursor='zoom-in';
+        im.addEventListener('click',function(){lbOpen(im.currentSrc||im.src,im.alt)});
+      };
+      im.complete?arm():im.addEventListener('load',arm);
+    });
+    // background-image galleries
+    document.querySelectorAll('[class*="gallery"] [style*="background-image"],[class*="portfolio"] [style*="background-image"],[class*="works"] [style*="background-image"]').forEach(function(el){
+      if(el.dataset.wpp||el.closest('a,button'))return;
+      var m=(el.style.backgroundImage||'').match(/url\(["']?([^"')]+)/);
+      if(!m||el.clientWidth<140)return;
+      el.dataset.wpp='1';el.style.cursor='zoom-in';
+      el.addEventListener('click',function(e){e.stopPropagation();lbOpen(m[1])});
+    });
+  }
+  armImages();window.addEventListener('load',armImages);
+
+  // 2. Phone-looking text -> tel: links
+  var PH=/(\+?38\s?)?\(?0\d{2}\)?[\s.-]?\d{3}[\s.-]?\d{2}[\s.-]?\d{2}/g;
+  var walker=document.createTreeWalker(document.body,NodeFilter.SHOW_TEXT,{acceptNode:function(n){
+    if(!PH.test(n.nodeValue)){PH.lastIndex=0;return NodeFilter.FILTER_REJECT}
+    PH.lastIndex=0;
+    return n.parentElement&&!n.parentElement.closest('a,button,script,style,#wbw-overlay')?NodeFilter.FILTER_ACCEPT:NodeFilter.FILTER_REJECT;
+  }}),nodes=[],nd;
+  while(nd=walker.nextNode())nodes.push(nd);
+  nodes.forEach(function(n){
+    var frag=document.createDocumentFragment(),last=0,txt=n.nodeValue,m;PH.lastIndex=0;
+    while(m=PH.exec(txt)){
+      frag.appendChild(document.createTextNode(txt.slice(last,m.index)));
+      var a=document.createElement('a');
+      var digits=m[0].replace(/\D/g,'');if(digits.length===10)digits='38'+digits;
+      a.href='tel:+'+digits;a.textContent=m[0];a.style.cssText='color:inherit;text-decoration:underline;text-underline-offset:3px';
+      frag.appendChild(a);last=m.index+m[0].length;
+    }
+    frag.appendChild(document.createTextNode(txt.slice(last)));
+    n.parentNode.replaceChild(frag,n);
+  });
+
+  // 3. href="#": logo -> top, social/decorative -> honest toast
+  var SOC=/instagram|tiktok|facebook|youtube|social|@|📸|🎵/i;
+  document.querySelectorAll('a[href="#"]').forEach(function(a){
+    if(a.closest('#wbw-overlay,#wow-order-bar'))return;
+    a.addEventListener('click',function(e){
+      if(a.getAttribute('href')!=='#')return;
+      e.preventDefault();
+      if(/logo/i.test(a.className)){window.scrollTo({top:0,behavior:'smooth'});return}
+      var hint=(a.getAttribute('aria-label')||a.getAttribute('title')||a.textContent||'');
+      showToast(SOC.test(hint)?'Це демо 😉 У вашій версії тут буде посилання на ваші соцмережі':'Це демо 😉 У вашій версії тут буде ваш контент');
+    });
+  });
+
+  // 4. Press feedback on interactive elements
+  document.querySelectorAll('button,a[class]').forEach(function(el){
+    if(el.closest('#wbw-overlay,#wpp-lb'))return;
+    el.classList.add('wpp-press');
+  });
+
+  // 5. Reveal-on-scroll (progressive: JS sets and removes everything)
+  if('IntersectionObserver' in window){
+    var els=document.querySelectorAll('section, footer');
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting)return;
+        var el=en.target;io.unobserve(el);
+        el.style.opacity='1';el.style.transform='none';
+        setTimeout(function(){el.style.transition='';el.style.transform='';el.style.opacity='';el.style.willChange=''},700);
+      });
+    },{rootMargin:'0px 0px -8% 0px'});
+    els.forEach(function(el,i){
+      if(i===0)return; // never hide the hero
+      var r=el.getBoundingClientRect();
+      if(r.top<innerHeight)return; // already visible on load
+      el.style.opacity='0';el.style.transform='translateY(22px)';
+      el.style.transition='opacity .6s ease,transform .6s cubic-bezier(.2,1,.3,1)';el.style.willChange='opacity,transform';
+      io.observe(el);
+    });
+  }
+})();
+</script>
+<!-- /wow-polish-pack -->
+
 </body>
 </html>
