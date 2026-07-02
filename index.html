@@ -1460,5 +1460,28 @@ a,button{-webkit-tap-highlight-color:transparent}
 </script>
 <!-- /wow-polish-pack -->
 
+
+<!-- wow-demo-pixel -->
+<script>
+!function(f,b,e,v,n,t,s){if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};if(!f._fbq)f._fbq=n;
+n.push=n;n.loaded=!0;n.version='2.0';n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];s.parentNode.insertBefore(t,s)}(window,
+document,'script','https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1578292430419094');
+fbq('track', 'PageView');
+fbq('trackCustom', 'DemoView', {demo: 'wedding'});
+(function(){
+  var done=document.getElementById('wbw-done');
+  if(done){new MutationObserver(function(){
+    if(done.style.display==='block'){fbq('trackCustom','DemoLead',{demo:'wedding'})}
+  }).observe(done,{attributes:true,attributeFilter:['style']})}
+  var bar=document.getElementById('wow-order-bar');
+  if(bar){var a=bar.querySelector('a');if(a)a.addEventListener('click',function(){
+    fbq('trackCustom','DemoOrderClick',{demo:'wedding'})})}
+})();
+</script>
+<!-- /wow-demo-pixel -->
+
 </body>
 </html>
