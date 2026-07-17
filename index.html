@@ -252,6 +252,15 @@
       justify-content: center;
       font-size: 6rem;
       position: relative;
+      overflow: hidden;
+    }
+    .hero-video {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
     }
     .dress-card-badge {
       position: absolute;
@@ -642,6 +651,39 @@
       margin-bottom: .5rem;
     }
     .service-desc { font-size: .875rem; color: var(--muted); }
+    .service-price { font-family: 'Cormorant Garamond', serif; font-size: 1.0625rem; font-weight: 700; color: var(--gold-dark); margin-top: .75rem; }
+
+    /* TEAM GRID */
+    .team-grid {
+      display: grid;
+      gap: 1.75rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      max-width: 760px;
+      margin: 0 auto;
+    }
+    .team-card { text-align: center; }
+    .team-photo {
+      width: 128px;
+      height: 128px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin: 0 auto 1.125rem;
+      box-shadow: var(--shadow-md);
+      border: 3px solid var(--white);
+      outline: 1px solid var(--border);
+    }
+    .team-name {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 600;
+      font-size: 1.1875rem;
+      color: var(--text);
+      margin-bottom: .3rem;
+    }
+    .team-role {
+      font-size: .8125rem;
+      color: var(--muted);
+      line-height: 1.6;
+    }
 
     /* CTA */
     .cta-section {
@@ -764,14 +806,14 @@
     }
   </style>
 <meta property="og:type" content="website">
-<meta property="og:title" content="BLANC Wedding Studio — Весілля під ключ | Київ">
-<meta property="og:description" content="Організація весіль, декор, координація. Консультація безкоштовно. Зв'язатись в Telegram.">
+<meta property="og:title" content="BLANC Wedding Studio — Весільні та вечірні сукні | Тернопіль">
+<meta property="og:description" content="Каталог весільних і вечірніх суконь: продаж, прокат, індпошиття та підгонка. Безкоштовна примірка. Записатись в Telegram.">
 <meta property="og:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=630&q=90&auto=format&fit=crop">
 <meta property="og:url" content="https://wowznahidka.github.io/demo-wedding/">
 <meta property="og:locale" content="uk_UA">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="BLANC Wedding Studio — Весілля під ключ | Київ">
-<meta name="twitter:description" content="Організація весіль, декор, координація. Консультація безкоштовно. Зв'язатись в Telegram.">
+<meta name="twitter:title" content="BLANC Wedding Studio — Весільні та вечірні сукні | Тернопіль">
+<meta name="twitter:description" content="Каталог весільних і вечірніх суконь: продаж, прокат, індпошиття та підгонка. Безкоштовна примірка. Записатись в Telegram.">
 <meta name="twitter:image" content="https://images.unsplash.com/photo-1519741497674-611481863552?w=1200&h=630&q=90&auto=format&fit=crop">
 <link rel="canonical" href="https://wowznahidka.github.io/demo-wedding/">
 <meta name="description" content="Сайт для весільного салону: каталог суконь, примірка, запис у Telegram. Від 2 500₴.">
@@ -786,6 +828,7 @@
       <ul class="nav-links">
         <li><a href="#catalog">Каталог</a></li>
         <li><a href="#services">Послуги</a></li>
+        <li><a href="#team">Команда</a></li>
         <li><a href="#booking">Запис</a></li>
         <li><a href="#reviews">Відгуки</a></li>
       </ul>
@@ -833,7 +876,11 @@
       <div class="hero-visual">
         <div>
           <div class="dress-card-main" style="margin-bottom:1rem;">
-            <div class="dress-card-img" style="background:url('https://images.unsplash.com/photo-1594552072238-b8a33785b261?w=800&q=80&auto=format&fit=crop') center/cover no-repeat;"><span class="dress-card-badge">Новинка 2026</span>
+            <div class="dress-card-img" style="background:url('https://images.unsplash.com/photo-1594552072238-b8a33785b261?w=800&q=80&auto=format&fit=crop') center/cover no-repeat;">
+              <video class="hero-video" autoplay muted loop playsinline preload="metadata" poster="https://images.unsplash.com/photo-1594552072238-b8a33785b261?w=800&q=80&auto=format&fit=crop">
+                <source src="https://videos.pexels.com/video-files/8775879/8775879-hd_1280_720_25fps.mp4" type="video/mp4">
+              </video>
+              <span class="dress-card-badge">Новинка 2026</span>
             </div>
             <div class="dress-card-body">
               <div class="dress-card-name">«Романтична весна» — А-силует</div>
@@ -880,6 +927,7 @@
         <div class="service-icon">💍</div>
         <div class="service-name">Весільні сукні</div>
         <div class="service-desc">А-силует, принцеса, русалка, мінімалізм. Продаж і прокат. Безкоштовна примірка.</div>
+        <div class="service-price">від 15 000 грн</div>
       </div>
       <div class="service-card">
         <div class="service-icon">🎓</div>
@@ -890,21 +938,53 @@
         <div class="service-icon">🌟</div>
         <div class="service-name">Вечірні сукні</div>
         <div class="service-desc">Для ресторану, корпоративу, дня народження. Продаж і прокат.</div>
+        <div class="service-price">від 1 800 грн</div>
       </div>
       <div class="service-card">
         <div class="service-icon">✂️</div>
         <div class="service-name">Індпошиття</div>
         <div class="service-desc">Сукня за вашими мірками і ескізом. Від 3 тижнів. Консультація безкоштовна.</div>
+        <div class="service-price">від 20 000 грн</div>
       </div>
       <div class="service-card">
         <div class="service-icon">📐</div>
         <div class="service-name">Підгонка і ательє</div>
         <div class="service-desc">Підкоротити, звузити, замінити блискавку. Готово за 1-3 дні.</div>
+        <div class="service-price">від 500 грн</div>
       </div>
       <div class="service-card">
         <div class="service-icon">👰</div>
         <div class="service-name">Сукні для подружок</div>
         <div class="service-desc">Комплект у тому ж стилі. Замовлення на групу від 3 осіб — знижка 10%.</div>
+        <div class="service-price">від 1 500 грн</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TEAM -->
+<section class="section section-alt" id="team">
+  <div class="container">
+    <div class="section-header">
+      <div class="section-overline"><span class="section-overline-text">Команда</span></div>
+      <h2 class="section-title">Ваші стилісти-консультанти</h2>
+      <p class="section-sub">Допоможемо знайти сукню, у якій ви відчуєте себе найкраще</p>
+    </div>
+    <div class="team-grid">
+      <div class="team-card">
+        <img class="team-photo" src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?w=300&q=80&auto=format&fit=crop" alt="Стиліст-консультант Марта" loading="lazy">
+        <div class="team-name">Марта Іванців</div>
+        <div class="team-role">Стиліст-консультант · весільні сукні<br>Підбір силуету під фігуру</div>
+      </div>
+      <div class="team-card">
+        <img class="team-photo" src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?w=300&q=80&auto=format&fit=crop" alt="Стиліст-консультант Соломія" loading="lazy">
+        <div class="team-name">Соломія Дацюк</div>
+        <div class="team-role">Консультант · Prom і вечірні сукні<br>Знає всю колекцію напам'ять</div>
+      </div>
+      <div class="team-card">
+        <img class="team-photo" src="https://images.unsplash.com/photo-1580489944761-15a19d654956?w=300&q=80&auto=format&fit=crop" alt="Майстриня ательє Ірина" loading="lazy">
+        <div class="team-name">Ірина Ковальчук</div>
+        <div class="team-role">Майстриня ательє · індпошиття та підгонка<br>10 років у весільній моді</div>
       </div>
     </div>
   </div>
