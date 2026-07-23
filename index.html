@@ -838,7 +838,10 @@
       padding-top: 1.5rem;
       border-top: 1px solid rgba(255,255,255,.06);
     }
-  </style>
+  
+    /* scroll progress */
+    #scroll-prog{position:fixed;top:0;left:0;height:2px;width:0%;background:#9b8060;z-index:10000;transition:width .1s linear;pointer-events:none}
+    </style>
 <meta property="og:type" content="website">
 <meta property="og:title" content="BLANC Wedding Studio — Весільні та вечірні сукні | Тернопіль">
 <meta property="og:description" content="Каталог весільних і вечірніх суконь: продаж, прокат, індпошиття та підгонка. Безкоштовна примірка. Записатись в Telegram.">
@@ -852,6 +855,7 @@
 <link rel="canonical" href="https://wowznahidka.github.io/demo-wedding/">
 </head>
 <body>
+  <div id="scroll-prog" aria-hidden="true"></div>
 
 <!-- NAV -->
 <nav class="nav">
@@ -1694,5 +1698,13 @@ fbq('trackCustom', 'DemoView', {demo: 'wedding'});
 </script>
 <!-- /wow-demo-pixel -->
 
+  <script>
+  (function(){
+    var el=document.getElementById('scroll-prog');
+    if(!el)return;
+    function upd(){var d=document.documentElement,pct=(d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100;el.style.width=Math.min(100,pct)+'%'}
+    window.addEventListener('scroll',upd,{passive:true});
+  })();
+  </script>
 </body>
 </html>
