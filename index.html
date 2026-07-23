@@ -1587,6 +1587,37 @@ a,button{-webkit-tap-highlight-color:transparent}
 </script>
 <!-- /wow-polish-pack -->
 
+<!-- wow-counter-anim -->
+<script>
+(function(){
+  if(!window.IntersectionObserver)return;
+  var nums=document.querySelectorAll(".stat-num,.stat-item__num,.stat__num");
+  nums.forEach(function(el){
+    var txt=el.textContent.trim();
+    var match=txt.match(/^(\d[\d\s]*)/);
+    if(!match)return;
+    var target=parseInt(match[1].replace(/\s/g,""));
+    var suffix=txt.slice(match[1].length);
+    var io=new IntersectionObserver(function(entries){
+      entries.forEach(function(en){
+        if(!en.isIntersecting)return;
+        io.unobserve(en.target);
+        var start=performance.now(),dur=1400;
+        function tick(now){
+          var p=Math.min((now-start)/dur,1);
+          var ease=1-Math.pow(1-p,3);
+          el.textContent=Math.round(target*ease)+suffix;
+          if(p<1)requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+      });
+    },{rootMargin:"0px 0px -10% 0px",threshold:0.3});
+    io.observe(el);
+  });
+})();
+</script>
+<!-- /wow-counter-anim -->
+
 
 <!-- wow-demo-pixel -->
 <script>
