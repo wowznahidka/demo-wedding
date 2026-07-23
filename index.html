@@ -841,6 +841,12 @@
   
     /* scroll progress */
     #scroll-prog{position:fixed;top:0;left:0;height:2px;width:0%;background:#9b8060;z-index:10000;transition:width .1s linear;pointer-events:none}
+    
+    /* back to top */
+    #btt{position:fixed;bottom:88px;right:18px;z-index:9000;width:40px;height:40px;border-radius:50%;background:#9b8060;border:none;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transition:opacity .3s,visibility .3s,transform .2s;box-shadow:0 2px 12px rgba(0,0,0,.25)}
+    #btt.show{opacity:1;visibility:visible}
+    #btt:hover{transform:translateY(-3px)}
+    #btt svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
     </style>
 <meta property="og:type" content="website">
 <meta property="og:title" content="BLANC Wedding Studio — Весільні та вечірні сукні | Тернопіль">
@@ -1704,6 +1710,15 @@ fbq('trackCustom', 'DemoView', {demo: 'wedding'});
     if(!el)return;
     function upd(){var d=document.documentElement,pct=(d.scrollTop||document.body.scrollTop)/(d.scrollHeight-d.clientHeight)*100;el.style.width=Math.min(100,pct)+'%'}
     window.addEventListener('scroll',upd,{passive:true});
+  })();
+  </script>
+  <button id="btt" aria-label="Вгору"><svg viewBox="0 0 24 24"><polyline points="18 15 12 9 6 15"/></svg></button>
+  <script>
+  (function(){
+    var btn=document.getElementById('btt');
+    if(!btn)return;
+    window.addEventListener('scroll',function(){btn.classList.toggle('show',window.scrollY>400)},{passive:true});
+    btn.addEventListener('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
   })();
   </script>
 </body>
