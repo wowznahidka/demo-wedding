@@ -137,6 +137,39 @@
     @media (min-width: 600px) {
       .nav-cta { display: inline-flex; padding: .625rem 1.75rem; font-size: .8125rem; }
     }
+    /* ─── MOBILE BURGER ─── */
+    .nav-burger {
+      display: flex; flex-direction: column; gap: 5px;
+      background: none; border: none; cursor: pointer; padding: 6px;
+      margin-left: auto;
+    }
+    .nav-burger span {
+      display: block; width: 22px; height: 1.5px;
+      background: var(--text); transition: all .3s;
+    }
+    @media (min-width: 768px) { .nav-burger { display: none; } }
+    .nav-fly {
+      display: none; position: fixed; inset: 0; background: var(--cream);
+      z-index: 9998; flex-direction: column;
+      align-items: center; justify-content: center; gap: 2.2rem;
+    }
+    .nav-fly.open { display: flex; }
+    .nav-fly a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.9rem; font-weight: 600; letter-spacing: .04em;
+      color: var(--text); text-decoration: none; transition: color .2s;
+    }
+    .nav-fly a:hover { color: var(--gold); }
+    .nav-fly .btn-gold {
+      font-size: .9rem; margin-top: .5rem;
+      background: var(--gold); color: #fff;
+      padding: .875rem 2.25rem; border-radius: 100px;
+    }
+    .nav-fly-close {
+      position: absolute; top: 22px; right: 22px;
+      font-size: 28px; line-height: 1; color: var(--muted);
+      background: none; border: none; cursor: pointer;
+    }
 
     /* HERO */
     .hero {
@@ -835,9 +868,29 @@
       </ul>
       <a href="https://telegram.me/znahidkawow" target="_blank" rel="noopener noreferrer"
          class="btn btn-gold nav-cta">Записатись на примірку</a>
+      <button class="nav-burger" id="navBurger" aria-label="Відкрити меню">
+        <span></span><span></span><span></span>
+      </button>
     </div>
   </div>
 </nav>
+<div class="nav-fly" id="navFly" role="dialog" aria-label="Мобільне меню">
+  <button class="nav-fly-close" id="navFlyClose" aria-label="Закрити">×</button>
+  <a href="#catalog" onclick="document.getElementById('navFly').classList.remove('open')">Каталог</a>
+  <a href="#services" onclick="document.getElementById('navFly').classList.remove('open')">Послуги</a>
+  <a href="#team" onclick="document.getElementById('navFly').classList.remove('open')">Команда</a>
+  <a href="#booking" onclick="document.getElementById('navFly').classList.remove('open')">Запис</a>
+  <a href="#reviews" onclick="document.getElementById('navFly').classList.remove('open')">Відгуки</a>
+  <a href="https://telegram.me/znahidkawow" target="_blank" class="btn btn-gold">💍 Записатись</a>
+</div>
+<script>
+(function(){
+  var b=document.getElementById('navBurger'),f=document.getElementById('navFly'),c=document.getElementById('navFlyClose');
+  if(!b)return;
+  b.addEventListener('click',function(){f.classList.add('open');document.body.style.overflow='hidden'});
+  c.addEventListener('click',function(){f.classList.remove('open');document.body.style.overflow=''});
+})();
+</script>
 
 <!-- HERO -->
 <section class="hero">
